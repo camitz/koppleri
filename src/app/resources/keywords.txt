@@ -1,0 +1,5 @@
+{
+	version: 2,
+	moderate: ['blatt','slyna','riktig slyna','hora','riktig hora','hiskeligt ful','grotesk','groteskt ful','ful kvinna','fulaste kvinna','subba','pryd','jävla subba','knulla','patetisk','underlägsen','såna som du','sådana som du','kärring','jävla kärring','svenskfientlig','jävla svin','kackerlacka','hålla käften','håll käft','uppkörd','köra upp','intelligen','knulla dig','din fitta','straffknulla','muslimälska','massa muslimer','massa invandrare','prissdränkta ','fittluder','hipsterkryp','luder','dränka','dränker sig','feministhora','din jävla','din ful','neger','feministas','feministsvin','manshatare','ditt äcklig','din äcklig','bra feminist','stoppa kuken','kuken i di','det där ansiktet'],
+	severe: ['våldta di','kvar att leva','knulla sönder','knullas sönder','ultimatum','skära halsen','halsen av di','kniven','minst anar','mörda di','gruppvåldta','utanför din dörr','utanför ditt hus','utanför ditt hem','steka dina bröst','','styckning','köttkrokar','polisjävlar','basebollträ','vet var du bor']
+}
