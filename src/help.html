@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Zero hate</title>
+    <!-- Application-specific CSS should be stored in your application’s package to ensure portability and to allow
+         the build system to combine & minify it. -->
+    <link rel="stylesheet" href="help/resources/help.css">
+	<style>
+		@import "dojox/grid/resources/claroGrid.css";
+
+		/*Grid needs an explicit height by default*/
+		.middle {
+			margin: 20px auto;
+			width: 650px;
+		}
+		#formContainer form {
+			clear:both;
+			argin:60px 0px;
+			padding: 0;
+		}
+
+		#formContainer textarea {
+			min-height: 60px;
+			width:430px;
+			float:left;
+		}
+
+		#formContainer .dijitButton {
+			float:left;
+			line-height: 40px;
+		}
+
+		#formContainer .checkboxes {
+			width:90px;
+			float:left;
+			margin: 0 0 0 10px;
+			height: 82px;
+		}
+
+		#formContainer .loadingIcon {
+		  background: url("help/resources/loading.gif") no-repeat scroll right top transparent;
+		  height: 24px;
+		  width: 24px;
+		  display:none;
+		  vertical-align:middle;
+		  line-height: 40px;
+		  float:left;
+		}
+
+		#formContainer .thanks {
+			float:left;
+			line-height: 45px;
+			margin: 0 5px;
+			font-style:italic;
+		}
+
+		#subFormContainer {
+			background: white;
+			position:relative;
+		}
+	</style>
+</head>
+<body class="claro">
+	<div id="fb-root"></div>
+    <script src="dojoConfig.js"></script>
+    <!-- dojo.js is an AMD-compliant loader script. It accepts configuration either from a data-dojo-config attribute,
+         as shown here, from a global dojoConfig object (which must be defined *before* dojo.js is loaded), or from
+         a global require object.
+
+         Configuration options for the loader can be viewed at http://dojotoolkit.org/reference-guide/loader/amd.html
+         along with a bunch of additional information about its features.
+
+         Below, we’re doing the following:
+
+         1. Enabling the AMD loader. (async: 1)
+         2. Fixing the loader to use normal AMD resolution of unregistered module paths (relative to baseDir)
+            instead of the traditional Dojo resolution method (relative to the parent of baseDir).
+            (tlmSiblingOfDojo: 0)
+         3. Enabling debugging. (isDebug: 1)
+
+         The remainder of Dojo configuration, as well as our application’s instantiation, occurs within
+         app/run.js.
+
+		 NOTE: `build.sh` is responsible for removing the "isDebug" flag when deploying to production. If you modify
+		 this flag at all, you will break the build! -->
+    <script src="dojo/dojo.js"></script>
+
+    <!-- Load the loader configuration script. Note that this module ID is hard-coded in build.sh in order to provide
+         an optimised build that loads as few as one script for the entire application. If you change the name or
+         location of this module, you will need to update build.sh too. -->
+    <script src="help/run.js"></script>
+	
+	<div class="middle">
+		<div class="splash">
+		</div>
+
+		<input type="text"  data-dojo-type="dijit/form/TextBox" data-dojo-props="trim:true, placeholder:'Frivillig epostadress'" id="tb_email" /></div>
+		
+		<div id="formContainer" style="margin-top:20px;"></div><br/>
+		<div style="clear:both"><i>Sluta inte här! Ladda om sidan och börja om!</i></div>
+	</div>
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-38434770-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</body>
+</html>
