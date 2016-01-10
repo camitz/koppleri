@@ -43,14 +43,14 @@ define([
 
 				createRow: function(w) {
 					this.rows[w] = construct.create('tr', null, this.tbl, 'last');
-					var td = construct.create('td', {innerHTML: w+'<div class="searchStatus"></div><div class="message"></div>', 'class': 'searchTerm searchTerm___' + w.replace(' ','') } , this.rows[w], 'last');
+					var td = construct.create('td', {innerHTML: w+'<div class="searchStatus"></div><div class="message"></div>', 'class': 'searchTerm searchTerm___' + w.replace(/ /g, '_') } , this.rows[w], 'last');
 					on(query('.searchStatus', td)[0], 'click', lang.hitch(this, function(e) { 
 						if (!domClass.contains(e.target, 'refresh'))
 							return;
 
 						event.stop(e); 
 
-						query('.searchTerm___' + w.replace(' ','') + ' ~ td').forEach(construct.destroy);
+						query('.searchTerm___' + w.replace(/ /g, '_') + ' ~ td').forEach(construct.destroy);
 
 						if (w == this.word)
 							this.mainSearch(true);
@@ -94,10 +94,10 @@ define([
 						if (!rimmet.result)
 							return;
 
-						var existing = query('.result___' + rimmet.result, this.rows[rimmet.searchTerm])[0];
+						var existingCell = query('.result___' + rimmet.result, this.rows[rimmet.searchTerm])[0];
 
-						if (existing) {
-							construct.create('span', {'class': 'service___'+rimmet.service}, existing, 'last');
+						if (existingCell) {
+							construct.create('span', {'class': 'service___'+rimmet.service}, existingCell, 'last');
 						} else {
 							var cells = query('td', this.rows[rimmet.searchTerm]);
 
@@ -105,20 +105,42 @@ define([
 								cells.push(construct.create('td', null, this.rows[rimmet.searchTerm], 'last'));
 
 							construct.create('span', {'class': 'service___'+rimmet.service}, 
-								construct.create('div', {innerHTML: '<div><div class="rim">' + rimmet.result + '</div></div>', 'class': 'result result___' + rimmet.result.replace(' ', '')}, cells[rimmet.stavelser], 'last')
+								construct.create('div', {innerHTML: '<div><div class="rim">' + rimmet.result + '</div></div>', 'class': 'result result___' + rimmet.result.replace(/ /g, '_')}, cells[rimmet.stavelser], 'last')
 								, 'last');
 						}
 					};
 
-					/*if (!results.length) //Hade funkat om det bara varit en s�ktj�nst.
-						query('.searchTerm___' + w.replace(' ','') + ' .message')[0].innerHTML = "Inga resultat hittades.";
+					/*if (!results.length) //Hade funkat om det bara varit en söktjänst.
+						query('.searchTerm___' + w.replace(/ /g, '_') + ' .message')[0].innerHTML = "Inga resultat hittades.";
 						*/
 
-					this.unWrap(results, lang.hitch(this,c));
+					var d = function(results) {
+						var leftOverResults = results.splice(500,results.length);
+						this.unWrap(results, lang.hitch(this, c));
+
+						if (leftOverResults.length > 0) {
+							var rimmet = leftOverResults[0];
+							while(Array.isArray(rimmet))
+								rimmet=rimmet[0];
+
+							var cells = query('td', this.rows[rimmet.searchTerm]);
+							lengths	= array.map(cells,function(n){return n.childNodes.length;});
+							var max = Math.max.apply( Math, lengths);
+							var cell = cells[array.indexOf(lengths, max)];
+							var l = construct.create('div', {innerHTML: '<div><div class="rim show-more"><a href="#">(visa fler...)</a></div></div>', 'class': 'result' }, cell, 'last');
+							on(l, 'click', lang.hitch(this,function(e) { 
+								event.stop(e); 
+								lang.hitch(this, d,leftOverResults)(leftOverResults);
+								construct.destroy(l);
+							}));
+						}
+					};
+
+					lang.hitch(this, d,results)(results);
 				},
 
 				 subSearch: function(w, force) {
-					domClass.add(query('.searchTerm___' + w.replace(' ','') + ' .searchStatus', resultTab.domNode)[0], 'loading');
+					domClass.add(query('.searchTerm___' + w.replace(/ /g, '_') + ' .searchStatus', resultTab.domNode)[0], 'loading');
 
 					var ds = [];
 					if (registry.byId('cb_rim').get('value'))
@@ -146,7 +168,7 @@ define([
 					}
 
 					all(ds).then(lang.hitch(this,function() {
-						var n = query('.searchTerm___' + w.replace(' ','') + ' .searchStatus', resultTab.domNode)[0]; 
+						var n = query('.searchTerm___' + w.replace(/ /g, '_') + ' .searchStatus', resultTab.domNode)[0]; 
 						domClass.add(n,'refresh'); 
 						domClass.remove(n,'loading');
 
@@ -155,12 +177,10 @@ define([
 								.then(lang.hitch(this,function(rim){ this.unWrap(rim, this.domGrade)}), function(e) { console.log(11);});
 
 					}), 
-					function(e) { 
-						var n = query('.searchTerm___' + w.replace(' ','') + ' .searchStatus', resultTab.domNode)[0]; 
-						domClass.add(n,'refresh'); 
-						domClass.remove(n,'loading');
-						query('.searchTerm___' + w.replace(' ','') + ' .message')[0].innerHTML = "N�got gick fel. Resultaten kanske inte visas korrekt.";
-					});
+					lang.hitch(this, function(e) { 
+						console.log(31);
+						this.displayError(w);
+					}));
 				},
 
 				domGrade: function(rimmet) {
@@ -170,23 +190,42 @@ define([
 						domClass.add(n, 'level');
 					});
 				},
+				displayError: function(w) {
+						var n = query('.searchTerm___' + w.replace(/ /g, '_') + ' .searchStatus', resultTab.domNode)[0]; 
+						domClass.add(n,'refresh'); 
+						domClass.remove(n,'loading');
+						query('.message',this.rows[w])[0].innerHTML = "Något gick fel. Resultaten kanske inte visas korrekt.";
+				},
 
 				mainSearch: function(force) {
 					domClass.add(query('.searchTerm___'+this.word+' .searchStatus', resultTab.domNode)[0], 'loading');
 
 					if (registry.byId('cb_rim').get('value'))
 						this.mainSearches.push(new RimlexikonAdapter().search(this.word, this.rimOpts(), force)
-							.then(lang.hitch(this,this.placeResult)), function(e) { console.log(7);});
+							.then(lang.hitch(this,this.placeResult), lang.hitch(this, function(e) { 
+								console.log(7);
+								this.displayError(this.word);
+							})));
 
-					if (registry.byId('cb_kjell').get('value'))
+					if (registry.byId('cb_kjell').get('value')){
 						this.mainSearches.push(new KjellsRimlexikonAdapter().search(this.word, this.kjellOpts(), force)
-							.then(lang.hitch(this,this.placeResult)), function(e) { console.log(8);});
+							.then(lang.hitch(this,this.placeResult), lang.hitch(this, function(e) { 
+								console.log(8);
+								this.displayError(this.word);
+							})));
+					}
 
 					var gradeSearch = null;
 					if (registry.byId('cb_gradera').get('value')) 
 					{
-						gradeSearch = new KjellsRimlexikonAdapter().search(this.word, {fonetiskt:1,vokalsort:0,minimalord:0,});
-						this.mainSearches.push(gradeSearch);
+						this.mainSearches.push(new KjellsRimlexikonAdapter().search(this.word, {fonetiskt:1,vokalsort:0,minimalord:0,})
+						.then(function(e) { 
+								console.log(81);
+							},function(e) { 
+								console.log(82);
+								this.displayError(this.word);
+							})
+						);
 					}
 
 					all(this.mainSearches).then(lang.hitch(this,function() {
@@ -245,7 +284,9 @@ define([
 							array.forEach(synonymer, lang.hitch(this,function(synonym) { 									
 								this.subSearch(synonym);
 							}));
-						}), function(e) { console.log(6);});
+						}), function(e) { 
+							console.log(6);
+						});
 					}
 
 
