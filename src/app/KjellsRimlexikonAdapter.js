@@ -39,6 +39,7 @@ define([
 
 					return xhr.post('http://cors-anywhere.herokuapp.com/http://kjell.haxx.se/rimlexikon/',
 						{
+							timeout:25000,
 							data: ioQuery.objectToQuery(lang.mixin({
 								ord:word,
 								fonetiskt:1,
@@ -83,8 +84,6 @@ define([
 
 						return results;
 
-					}, function(html, data) {
-						var error = 1;
 					});
 				}
             });

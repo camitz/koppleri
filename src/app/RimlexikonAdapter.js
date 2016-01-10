@@ -24,6 +24,7 @@ define([
 					results = [];
 					return xhr('http://cors-anywhere.herokuapp.com/http://rimlexikon.com/index.php?rim=' + escape(word),
 						{
+							timeout:25000,
 							//handleAs : 'html'
 						}
 					).then(function(html) {
@@ -51,8 +52,9 @@ define([
 
 						return results;
 
-					}, function(html, data) {
-						var error = 1;
+					}, function(error) {
+						consolo.log(200);
+						throw error;
 					});
 				}
             });

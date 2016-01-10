@@ -24,23 +24,28 @@ define([
 					results = [];
 					return xhr('http://cors-anywhere.herokuapp.com/http://www.synonymer.se/?query='+word+'&SOK=s%C3%B6k',
 						{
+							timeout:25000,
 							//handleAs : 'html'
 						}
 					).then(function(html) {
+						if(html.indexOf("Inga synonymer hittades")!==-1)
+							return [];
+
 						parser = new DOMParser();
 						el = parser.parseFromString(html, "text/html");
 
 						rNode = el.getElementById('middlebanner'); 
 
-						var el = construct.create('div', {id:'synResults', innerHTML: rNode.innerHTML},document.body, 'last');
+						//var el = construct.create('div', {id:'synResults', innerHTML: rNode.innerHTML},document.body, 'last');
 						/*el.style.width = 0;
 						el.style.height = 0;
 						el.style.overflow = 'hidden';*/
 
-						document.body.appendChild(el);
+						//document.body.appendChild(el);
 						
-						query('#synResults .boxContent a').forEach(function(a) {
-							results.push(a.innerHTML);
+						query('.boxContent a', rNode).forEach(function(a) {
+							if(a.innerHTML.indexOf("Föreslå e")===-1)
+								results.push(a.innerHTML);
 						});
 
 						construct.destroy(el);
@@ -51,8 +56,9 @@ define([
 
 						return results;
 
-					},function(html, data) {
-						var error = 1;						
+					},function(error) {
+						console.log(100);
+						throw error;
 					});
 				}
             });

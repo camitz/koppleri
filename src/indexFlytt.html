@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+
+    <title>Koppleri</title>
+    <!-- Application-specific CSS should be stored in your application’s package to ensure portability and to allow
+         the build system to combine & minify it. -->
+    <link rel="stylesheet" href="app/resources/app.css">
+	<style>
+		table { border:0; padding:0; width:100%; height: 100%;}
+		td { vertical-align: top; padding-bottom: 10px; }
+		tr { padding-bottom: 10px;}
+		#resultTable td div { padding-left: 13px; }
+		#resultTable .rim { padding: 0; }
+		.service___rim {     background: url("app/resources/images/rim.gif") no-repeat left;
+			width: 8px;
+			height: 13px;
+			position: absolute;
+			top:0;
+			left: 15px;
+		}
+		.service___kjell {     background: url("app/resources/images/kjell.gif") no-repeat left;
+			width: 8px;
+			height: 13px;
+			position: absolute;
+			top:0;
+			left:5px;
+		}
+		.result { position: relative; }
+		#output {
+			height:30px;
+			overflow:auto;
+			font-family:fixed;
+		}
+		#output p {
+			margin:0;
+			line-height: 1.3em;
+		}
+		#output p::before {
+			content: "> ";
+		}
+		.searchForm div {
+		    line-height: 2.5em;
+		}
+		.searchForm div p {
+		    line-height: 1.8em;
+			padding-left: 15px;
+			margin:0;
+		}
+		#lbl_synonymer {
+			background: url("app/resources/images/synonymer.gif") no-repeat right; padding-right: 11px;
+		}
+		#lbl_kjell {
+			background: url("app/resources/images/kjell.gif") no-repeat right; padding-right: 11px;
+		}
+		#lbl_rim {
+			background: url("app/resources/images/rim.gif") no-repeat right; padding-right: 11px;
+		}
+		.dijitCheckBox input { cursor:pointer;}
+
+		td.searchTerm {
+			padding-right: 32px;
+			margin-right: 7px;
+			position:relative;
+			min-width:130px;
+		}
+
+		.searchStatus {
+			vertical-align:middle;
+			display:inline-block;
+		}
+
+		.loading {
+			width:32px;
+			height:32px;
+			background: url("app/resources/images/loading.gif") no-repeat right;
+		}
+
+		.refresh {
+			width:11px;
+			height:12px;
+			background: url("app/resources/images/refresh.gif") no-repeat right;
+			cursor:pointer;
+		}
+
+		.message {
+			padding-top: 5px;
+			font-style: italic;
+		}
+
+		#resultTable .level .rim {
+			border: thin black solid;
+			display: inline;
+			padding: 0;
+			margin: 1px;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+		}
+
+		#resultTable .level__9 .rim {
+			background: hsl(214, 100%, 50%);
+		}
+		#resultTable .level__8 .rim {
+			background: hsl(214, 100%, 55%);
+		}
+		#resultTable .level__7 .rim {
+			background: hsl(214, 100%, 60%);
+		}
+		#resultTable .level__6 .rim {
+			background: hsl(214, 100%, 65%);
+		}
+		#resultTable .level__5 .rim {
+			background: hsl(214, 100%, 70%);
+		}
+		#resultTable .level__4 .rim {
+			background: hsl(214, 100%, 75%);
+		}
+		#resultTable .level__3 .rim {
+			background: hsl(214, 100%, 80%);
+		}
+		#resultTable .level__2 .rim {
+			background: hsl(214, 100%, 85%);
+		}
+		#resultTable .level__1 .rim {
+			background: hsl(214, 100%, 90%);
+		}
+		#resultTable .level__0 .rim {
+			background: hsl(214, 100%, 95%);
+		}
+
+		#searchHistory {
+			list-style-type:none;
+			padding-left: 0;
+		}
+		#searchHistory li {
+
+		}
+		#searchHistory li a {
+			color: black;
+			font-weight: bold;
+			text-decoration:none;
+		}
+
+		.show-more a {
+			text-decoration:none;
+			font-weight:bold;
+		}
+	</style>
+</head>
+<body class="claro" style='visibility:hidden'>
+    <script src="dojoConfig.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.2/dojo/dojo.js"></script>
+    <script src="app/run.js"></script>
+
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+		<span style="font-size: 1.5em">Koppleri!</span> <span style="font-size: 1em"> har flyttat. Gå till <a href="http://camitz.github.io/koppleri/src/">http://camitz.github.io/koppleri/src/</a></span> 
+	</div>
+</div>
+
+<script type="text/javascript">
+
+
+</script>
+
+</body>
+</html>
